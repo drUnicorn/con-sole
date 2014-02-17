@@ -4,44 +4,7 @@
 	<meta charset="utf-8" />
 	<title>The Bash</title>
 	<meta name="author" content="m93a.cz@gmail.com" />
-	<style id="bash-style">
-		@keyframes loading {
-			1%   {background-color: #000000;}
-			9.9% {background-color: #000000;}
-			10%  {background-color: #123456;}
-			11%  {background-color: #654321;}
-			12%  {background-color: #000000;}
-			12.2%{background-color: #101238;}
-			20.9%{background-color: #101238;}
-			30%  {background-color: #529865;}
-			35%  {background-color: #529865;}
-			43%  {background-color: #453289;}
-			46%  {background-color: #453289;}
-			48%  {background-color: #529865;}
-			50%  {background-color: #191235;}
-			99.8%{background-color: #101238;}
-			99.9%{background-color: #ffff98;}
-			100% {background-color: #000000;}
-		}
-		@-webkit-keyframes loading {
-			1%   {background-color: #000000;}
-			9.9% {background-color: #000000;}
-			10%  {background-color: #123456;}
-			11%  {background-color: #654321;}
-			12%  {background-color: #000000;}
-			12.2%{background-color: #101238;}
-			20.9%{background-color: #101238;}
-			30%  {background-color: #529865;}
-			35%  {background-color: #529865;}
-			43%  {background-color: #453289;}
-			46%  {background-color: #453289;}
-			48%  {background-color: #529865;}
-			50%  {background-color: #191235;}
-			99.8%{background-color: #101238;}
-			99.9%{background-color: #ffff98;}
-			100% {background-color: #000000;}
-		}
-		
+	<style id="bash-style">		
 		#bash {
 			background-color: #000;
 			font-family: 'courier new';
@@ -167,8 +130,8 @@
 			
 			
 			window.sys.Bash.command = Array();
-			window.sys.Bash.command['help'] = function (attrs) {
-				switch (attrs) {
+			window.sys.Bash.command['help'] = function(attrs){
+				switch(attrs){
 					case undefined:
 						bashWrite(' Bash, v. ');
 						bashWrite(window.sys.version.string);
@@ -176,8 +139,7 @@
 						bashWrite('  account [-e] <--login|--logout|--settings>\n');
 						bashWrite('  achievements [name]\n');
 						bashWrite('  help [command]\n');
-						bashWrite('  quit\n');
-						bashWrite('  start [saved]\n');
+      bashWrite('  go <direction>\n');
 						break;
 					case 'account':
 						bashWrite(' account [-e] <--login|--logout|--settings>\n');
@@ -189,18 +151,71 @@
 					case 'achievements':
 						bashWrite('');
 						break;
+     case 'go':
+      bashWrite(' go <direction>');
+      bashWrite('   \'direction\' - possible options: north, south, east, west');
+      break;
 					default:
-						alert('"'+attrs+'"');
+						bashWrite('Unknown command: "'+attrs+'"');
 						break;
 				}
 			};
-			window.sys.Bash.command['start'] = function (attrs) {
-				bashEnd();
-				guiLoad(attrs);
-			};
+   
+   window.sys.Bash.command['go'] = function(attrs){
+    switch(attrs[0]){
+     case 'north':
+      window.game.position[0]--;
+      break;
+     case 'south':
+      window.game.position[0]++;
+      break;
+     case 'east':
+      window.game.position[1]++;
+      break;
+     case 'west':
+      window.game.position[1]--;
+      break;
+    }
+    bashWrite('\n');
+    bashWrite(window.game.texts.map[window.game.map[window.game.position[0]][window.game.position[1]]]);
+    bashWrite('\n');
+   };
+   
+			/* Game */
+			window.game = {};
+   window.game.map = [
+    ['death','death','death'],
+    ['null' ,'start','nyan' ],
+    ['null' ,'exit' ,'null' ]
+   ];
+   window.game.position = [1,1];
+   window.game.texts = {
+    'random':[
+     'I lost The Game',
+     'Enterprise edition',
+     'From the Interblag',
+     'Written during the biology lesson',
+     'xkcd.com/91',
+     'Help! I\'m trapped in the source code!',
+     /*
+        (O_o) <^^^^^^^^^^^^|
+              | How the    |
+              | **** did   |
+              | get there? |
+              |____________|
+     */
+     'telnet -a o towel.blinkenlights.nl'
+    ],
+    'map':{
+     'null' :"Dark place, nothing of interest.",
+     'start':"You spawn on a gloomy place, full of dust. Creepy.",
+     'exit' :"Yay, you found exit. Let's see what's there.",
+     'death':"Glowing red eyes. Quick move and you're dead. You shouldn't have gone there.",
+     'nyan' :"Nya nya nya na na, na na na na - na: Na na na nana nya na na na na na na na na."
+    }
+   };
 			
-			
-			
+   /* Start teh game */
 			bashWrite('Uncompressing');
 			bashPause(12, '.');
 			bashWrite('OK\n');
@@ -212,7 +227,43 @@
 			bashWrite('Connecting');
 			bashPause(35, '.');
 			bashWrite('Error, unknown user. See connect.log for futher information.\n');
-			
+			bashPause(50);
+   bashWrite('\n');
+   bashWrite('   CCC  OO  N  N');
+   bashPause(Math.round(Math.random()*10));
+   bashWrite('      SSS   O');
+   bashPause(Math.round(Math.random()*10));
+   bashWrite('O  L    EEEE\n');
+   bashPause(Math.round(Math.random()*10));
+   bashWrite('  C    O  O NN N');
+   bashPause(Math.round(Math.random()*10));
+   bashWrite('     S     O ');
+   bashPause(Math.round(Math.random()*10));
+   bashWrite(' O L    E   \n');
+   bashPause(Math.round(Math.random()*10));
+   bashWrite(' C    O  O N NN ');
+   bashPause(Math.round(Math.random()*10));
+   bashWrite(' ==  SSS  O  ');
+   bashPause(Math.round(Math.random()*10));
+   bashWrite('O L    EEEE\n');
+   bashPause(Math.round(Math.random()*10));
+   bashWrite(' C    o  O N  N ');
+   bashPause(Math.round(Math.random()*10));
+   bashWrite('        S O  ');
+   bashPause(Math.round(Math.random()*10));
+   bashWrite('O L    E   \n');
+   bashPause(Math.round(Math.random()*10));
+   bashWrite(' CCC  OO  N  N  ');
+   bashPause(Math.round(Math.random()*10));
+   bashWrite('    SSS   OO ');
+   bashPause(Math.round(Math.random()*10));
+   bashWrite(' LLLL EEEE\n');
+   bashPause(20);
+   bashWrite('\n                              ');
+   bashWrite(window.game.texts.random[Math.round(Math.random()*1000)%window.game.texts.random.length]);
+   bashWrite('\n\n');
+   bashWrite(window.game.texts.map[window.game.map[window.game.position[0]][window.game.position[1]]]);
+   bashWrite('\n');
 			bashWaitForInput();
 			
 			bashCursor(true);
@@ -220,7 +271,7 @@
 			bashPrint();
 			
 			
-			document.body.addEventListener('keydown', function (e) {
+			document.body.addEventListener('keydown', function(e){
 				var value;
 				if (e.keyCode == 13) {
 					value = window.sys.Bash.span.input.value;
@@ -373,29 +424,6 @@
 			removeNode(window.sys.Bash.span.input);
 			removeNode(window.sys.Bash.span);
 			delete window.sys.Bash;
-		}
-		
-		function guiLoad(attrs) {
-			document.body.setAttribute('id', 'loading');
-			
-			window.sys.Gui = {};
-			
-			var player = document.createElement('img');
-			player.setAttribute('id', 'guiPlayer');
-			player.setAttribute('class', 'sprite');
-			player.setAttribute('src', './robot.svg');
-			player.x = 0; player.y = 0;
-			player.style.position = "absolute";
-			player.style.left = player.x;
-			player.style.top = player.y;
-			document.body.appendChild(player);
-			
-			setTimeout(guiStart, 2000);
-		}
-		
-		function guiStart() {
-			document.body.style.animationPlayState = 'paused';
-			document.body.style.webkitAnimationPlayState = 'paused';
 		}
 	</script>
 	<!--<span class="ad"><endora></span>-->
